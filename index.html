@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bruno Jones | 45Design — Web Developer</title>
+<meta name="description" content="I build beautiful, functional websites in days, not months. Portfolio sites, interactive web apps, e-commerce stores and AI-powered apps."/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+          "on-surface-variant": "#c3c5d9",
+          "surface-container": "#1f1f1f",
+          "primary": "#b6c4ff",
+          "outline-variant": "#434656",
+          "on-background": "#e2e2e2",
+          "surface-container-lowest": "#0e0e0e",
+          "outline": "#8d90a2",
+          "surface": "#131313",
+          "surface-container-low": "#1b1b1b",
+          "background": "#131313",
+          "on-primary-container": "#e5e8ff",
+          "surface-container-highest": "#353535",
+          "primary-container": "#0057ff",
+          "on-surface": "#e2e2e2",
+          "surface-container-high": "#2a2a2a",
+          "secondary": "#a6e6ff",
+          "surface-variant": "#353535",
+          "error": "#ffb4ab"
+        },
+        "borderRadius": {
+          "DEFAULT": "0.125rem",
+          "lg": "0.25rem",
+          "xl": "0.5rem",
+          "full": "0.75rem"
+        },
+        "spacing": {
+          "base": "8px",
+          "section-gap": "160px",
+          "container-padding": "40px",
+          "gutter": "24px"
+        },
+        "fontFamily": {
+          "headline-lg": ["Hanken Grotesk"],
+          "label-mono": ["JetBrains Mono"],
+          "headline-lg-mobile": ["Hanken Grotesk"],
+          "display-xl": ["Hanken Grotesk"],
+          "body-md": ["Hanken Grotesk"]
+        },
+        "fontSize": {
+          "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+          "label-mono": ["12px", {"lineHeight": "1.5", "letterSpacing": "0.1em", "fontWeight": "500"}],
+          "headline-lg-mobile": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+          "display-xl": ["80px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "700"}],
+          "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+        }
+      },
+    },
+  }
+</script>
+<style>
+  @keyframes reveal {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .reveal-on-scroll { opacity: 0; }
+  .reveal-on-scroll.visible {
+    animation: reveal 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-on-scroll { opacity: 1; }
+    .reveal-on-scroll.visible { animation: none; }
+    html { scroll-behavior: auto !important; }
+    .flow-line { animation: none; }
+    .flow-dot { display: none; }
+    #project-modal[open] { animation: none; }
+  }
+  .glow-sm { text-shadow: 0 0 15px rgba(182, 196, 255, 0.4); }
+  /* Process section: flowing connector lines */
+  .flow-line {
+    background-image:
+      repeating-linear-gradient(90deg, rgba(182, 196, 255, 0.45) 0 10px, transparent 10px 18px),
+      linear-gradient(90deg, rgba(0, 87, 255, 0.12), rgba(0, 87, 255, 0.12));
+    background-size: 18px 100%, 100% 100%;
+    animation: dash-march 1.2s linear infinite;
+  }
+  @keyframes dash-march {
+    to { background-position: 18px 0, 0 0; }
+  }
+  .flow-dot {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background: #b6c4ff;
+    box-shadow: 0 0 12px 3px rgba(0, 87, 255, 0.8);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    animation: dot-travel 5s linear infinite;
+  }
+  .flow-dot-b { animation-delay: 2.5s; }
+  @keyframes dot-travel {
+    0%   { left: 0%;   opacity: 0; }
+    4%   { opacity: 1; }
+    46%  { opacity: 1; }
+    50%  { left: 100%; opacity: 0; }
+    100% { left: 100%; opacity: 0; }
+  }
+  .card-aura:hover { box-shadow: 0 0 40px -10px rgba(0, 87, 255, 0.4); }
+  .material-symbols-outlined {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  }
+  /* Project case-study modal */
+  #project-modal::backdrop {
+    background: rgba(14, 14, 14, 0.75);
+    backdrop-filter: blur(6px);
+  }
+  #project-modal[open] {
+    animation: modal-pop 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  @keyframes modal-pop {
+    from { opacity: 0; transform: translateY(12px) scale(0.97); }
+  }
+  body::-webkit-scrollbar { width: 4px; }
+  body::-webkit-scrollbar-track { background: #131313; }
+  body::-webkit-scrollbar-thumb { background: #434656; }
+  a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+    outline: 2px solid #b6c4ff;
+    outline-offset: 3px;
+  }
+</style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-x-hidden">
+
+<!-- Global Background Shader -->
+<div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
+<div class="absolute inset-0 w-full h-full opacity-80" style="display:block;">
+<canvas id="shader-canvas-bg" style="display:block;width:100%;height:100%"></canvas>
+</div>
+<div class="absolute inset-0 bg-gradient-to-b from-transparent via-background/10 to-background/90"></div>
+</div>
+
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-background/60 backdrop-blur-xl border-b border-outline-variant/10">
+<nav class="flex justify-between items-center h-20 px-6 md:px-container-padding max-w-[1440px] mx-auto">
+<a class="font-headline-lg text-on-background font-bold tracking-tight text-xl" href="#top">45Design</a>
+<div class="hidden md:flex items-center gap-gutter">
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#work">Work</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#services">Services</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#process">Process</a>
+<a class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" href="#contact">Contact</a>
+</div>
+<a href="#contact" class="bg-primary-container text-on-primary-container px-6 py-2 font-label-mono text-label-mono uppercase tracking-widest transition-transform duration-200 active:scale-95 hover:shadow-[0_0_20px_rgba(0,87,255,0.3)]">
+Let's Build
+</a>
+</nav>
+</header>
+
+<main class="relative z-10" id="top">
+
+<!-- 1. Hero Section -->
+<section class="min-h-screen flex flex-col justify-center items-center px-6 md:px-container-padding text-center">
+<div class="max-w-[1200px] reveal-on-scroll visible">
+<p class="font-label-mono text-label-mono uppercase tracking-[0.4em] text-primary mb-8">Web Developer &amp; UI Engineer</p>
+<h1 class="font-display-xl text-5xl md:text-display-xl uppercase leading-none mb-8 tracking-tighter">
+Bruno <span class="text-primary glow-sm">Jones</span>
+</h1>
+<p class="font-headline-lg text-headline-lg-mobile md:text-headline-lg max-w-3xl mx-auto text-on-surface-variant leading-relaxed mb-12">
+I build beautiful, functional websites in days, not months.
+</p>
+<div class="flex flex-col md:flex-row gap-6 justify-center items-center">
+<a class="group relative inline-flex items-center gap-4 bg-primary-container text-on-primary-container px-10 py-5 font-label-mono text-label-mono uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(0,87,255,0.5)]" href="#work">
+See My Work
+<span class="material-symbols-outlined group-hover:translate-x-2 transition-transform" aria-hidden="true">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+
+<!-- 2. Projects Section -->
+<section class="py-24 md:py-section-gap px-6 md:px-container-padding max-w-[1440px] mx-auto" id="work">
+<div class="flex justify-between items-end mb-16 reveal-on-scroll">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mb-4">Selected Work</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Case studies &amp; experiments</p>
+</div>
+<div class="hidden md:block h-[1px] flex-grow mx-12 bg-outline-variant/20 mb-4"></div>
+<span class="hidden md:inline font-label-mono text-label-mono uppercase">01 // Projects</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+
+<!-- Project 1: Local Business -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/wirral-hairdressers.jpg" alt="Wirral Hairdressers homepage with an editorial hero and Book Consultation button" width="1280" height="640" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">Local Business</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Wirral Hairdressers</h3>
+<p class="text-on-surface-variant text-body-md mb-6">A luxury salon site for West Kirby with online booking and a price list.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://wirral-hairdressers.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 2: Portfolio -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/katrina-photography.jpg" alt="Homepage of Katrina's cinematic photography portfolio with filmstrip galleries" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">Portfolio</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Katrina Photography</h3>
+<p class="text-on-surface-variant text-body-md mb-6">A cinematic portfolio for photographer Katrina with full-bleed galleries.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://karina-portfolio-sable.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 3: Interactive -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/dj-carlos.jpg" alt="DJ Carlos homepage with glowing cyan title and Book Now button" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">Interactive</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">DJ Carlos</h3>
+<p class="text-on-surface-variant text-body-md mb-6">A bold, animated site for Mexico City DJ Carlos with mixes and bookings.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://dj-carlos-website.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 4: Web App -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/exploring-with-suzie.jpg" alt="Exploring with Suzie travel journal homepage with script headline" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">Web App</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Exploring with Suzie</h3>
+<p class="text-on-surface-variant text-body-md mb-6">A travel blog where Suzie publishes guides and photo stories.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://suzy-travel-blog-olive.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 5: E-Commerce -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/diana-merch-store.jpg" alt="Diana merch store homepage with bold lime-green Explore Now button" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">E-Commerce</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Diana Merch Store</h3>
+<p class="text-on-surface-variant text-body-md mb-6">The official merch storefront for DJ Diana, with fast checkout.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://dj-merch-store.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 6: AI App -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/hallo-learn-german.jpg" alt="Hallo! German tutor chat interface with lesson suggestion buttons" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">AI App</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Hallo! Learn German</h3>
+<p class="text-on-surface-variant text-body-md mb-6">An AI German tutor that coaches you through vocabulary and conversation.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://german-tutor-sage.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+<!-- Project 7: Game -->
+<article class="group relative overflow-hidden bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg reveal-on-scroll card-aura transition-all duration-500 cursor-pointer" tabindex="0" role="button" aria-haspopup="dialog">
+<div class="aspect-video overflow-hidden">
+<img class="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105" src="images/neon-runner.jpg" alt="Neon Runner game start screen with a glowing grid and Press Space to Play" width="1280" height="720" loading="lazy"/>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm">Game</span>
+<h3 class="font-headline-lg text-headline-lg-mobile leading-tight mb-3">Neon Runner</h3>
+<p class="text-on-surface-variant text-body-md mb-6">A neon-soaked browser running game with smooth 60fps canvas action.</p>
+<a class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-primary hover:glow-sm transition-all" href="https://running-game-two.vercel.app" target="_blank" rel="noopener">
+View Live <span class="material-symbols-outlined text-base" aria-hidden="true">north_east</span>
+</a>
+<button type="button" class="inline-flex items-center gap-2 font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors ml-6">
+Details <span class="material-symbols-outlined text-base" aria-hidden="true">expand_content</span>
+</button>
+</div>
+</article>
+
+</div>
+</section>
+
+<!-- 3. Services Section -->
+<section class="py-24 md:py-section-gap px-6 md:px-container-padding bg-surface-container-lowest/20 backdrop-blur-xl" id="services">
+<div class="max-w-[1440px] mx-auto">
+<div class="flex justify-between items-end mb-16 reveal-on-scroll">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mb-4">What I Offer</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">What I build for clients</p>
+</div>
+<div class="hidden md:block h-[1px] flex-grow mx-12 bg-outline-variant/20 mb-4"></div>
+<span class="hidden md:inline font-label-mono text-label-mono uppercase">02 // Services</span>
+</div>
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-gutter">
+
+<div class="group bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg p-10 reveal-on-scroll card-aura transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-primary mb-6 block" aria-hidden="true">web</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3 group-hover:translate-x-1 transition-transform duration-300">Portfolio Sites</h3>
+<p class="text-on-surface-variant text-body-md">Personal and studio sites that win you clients.</p>
+</div>
+
+<div class="group bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg p-10 reveal-on-scroll card-aura transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-primary mb-6 block" aria-hidden="true">animation</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3 group-hover:translate-x-1 transition-transform duration-300">Interactive Web Apps</h3>
+<p class="text-on-surface-variant text-body-md">Immersive experiences with WebGL and real-time motion.</p>
+</div>
+
+<div class="group bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg p-10 reveal-on-scroll card-aura transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-primary mb-6 block" aria-hidden="true">shopping_bag</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3 group-hover:translate-x-1 transition-transform duration-300">E-Commerce Stores</h3>
+<p class="text-on-surface-variant text-body-md">Storefronts that load fast and make buying easy.</p>
+</div>
+
+<div class="group bg-surface-container-low/40 backdrop-blur-md border border-white/5 rounded-lg p-10 reveal-on-scroll card-aura transition-all duration-500">
+<span class="material-symbols-outlined text-5xl text-primary mb-6 block" aria-hidden="true">smart_toy</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3 group-hover:translate-x-1 transition-transform duration-300">AI-Powered Apps</h3>
+<p class="text-on-surface-variant text-body-md">Apps that put modern AI to work, from chat assistants to content generation.</p>
+</div>
+
+</div>
+</div>
+</section>
+
+<!-- 4. Process Section -->
+<section class="py-24 md:py-section-gap px-6 md:px-container-padding max-w-[1440px] mx-auto" id="process">
+<div class="flex justify-between items-end mb-16 reveal-on-scroll">
+<div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg uppercase mb-4">How It Works</h2>
+<p class="font-label-mono text-label-mono text-on-surface-variant uppercase tracking-widest">Three steps to launch</p>
+</div>
+<div class="hidden md:block h-[1px] flex-grow mx-12 bg-outline-variant/20 mb-4"></div>
+<span class="hidden md:inline font-label-mono text-label-mono uppercase">03 // Process</span>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-gutter relative">
+<div class="hidden md:block absolute top-16 left-[16.666%] right-[16.666%] h-[2px]" aria-hidden="true">
+<div class="flow-line absolute left-0 top-0 h-full w-1/2">
+<span class="flow-dot"></span>
+</div>
+<div class="flow-line absolute right-0 top-0 h-full w-1/2">
+<span class="flow-dot flow-dot-b"></span>
+</div>
+</div>
+
+<div class="relative text-center px-6 reveal-on-scroll">
+<div class="relative inline-flex items-center justify-center w-32 h-32 rounded-full bg-surface-container-low/60 backdrop-blur-md border border-primary/20 mb-8">
+<span class="material-symbols-outlined text-5xl text-primary" aria-hidden="true">forum</span>
+</div>
+<span class="font-label-mono text-label-mono text-primary block mb-2">Step 01</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3">We Discuss Your Needs</h3>
+<p class="text-on-surface-variant text-body-md max-w-xs mx-auto">You tell me what you're building and who it's for. I scope the work on the call.</p>
+</div>
+
+<div class="relative text-center px-6 reveal-on-scroll">
+<div class="relative inline-flex items-center justify-center w-32 h-32 rounded-full bg-surface-container-low/60 backdrop-blur-md border border-primary/20 mb-8">
+<span class="material-symbols-outlined text-5xl text-primary" aria-hidden="true">code</span>
+</div>
+<span class="font-label-mono text-label-mono text-primary block mb-2">Step 02</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3">I Build and Refine</h3>
+<p class="text-on-surface-variant text-body-md max-w-xs mx-auto">I share a live preview link and update it daily while I build.</p>
+</div>
+
+<div class="relative text-center px-6 reveal-on-scroll">
+<div class="relative inline-flex items-center justify-center w-32 h-32 rounded-full bg-surface-container-low/60 backdrop-blur-md border border-primary/20 mb-8">
+<span class="material-symbols-outlined text-5xl text-primary" aria-hidden="true">rocket_launch</span>
+</div>
+<span class="font-label-mono text-label-mono text-primary block mb-2">Step 03</span>
+<h3 class="font-headline-lg text-headline-lg-mobile uppercase mb-3">We Launch and Celebrate</h3>
+<p class="text-on-surface-variant text-body-md max-w-xs mx-auto">We put the site live within days of kickoff, and you keep full ownership of the code.</p>
+</div>
+</div>
+</section>
+
+<!-- 5. Contact Section -->
+<section class="py-24 md:py-section-gap px-6 md:px-container-padding" id="contact">
+<div class="max-w-4xl mx-auto border border-outline-variant/10 p-8 md:p-20 relative overflow-hidden bg-surface-container-low/20 backdrop-blur-md reveal-on-scroll">
+<div class="text-center mb-16">
+<h2 class="font-display-xl text-headline-lg-mobile md:text-headline-lg uppercase mb-6">Have a project<br/>in mind?</h2>
+<a class="inline-flex items-center gap-3 font-headline-lg text-headline-lg-mobile text-primary hover:glow-sm transition-all duration-300 break-all md:break-normal" href="mailto:Brunojones06@gmail.com">
+Brunojones06@gmail.com
+<span class="material-symbols-outlined text-3xl" aria-hidden="true">arrow_outward</span>
+</a>
+</div>
+
+<!-- Replace YOUR_FORM_ID with your Formspree form ID (https://formspree.io) -->
+<form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-8 text-left">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<div>
+<label for="name" class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant block mb-3">Name <span class="text-error" aria-hidden="true">*</span></label>
+<input type="text" id="name" name="name" required autocomplete="name"
+class="w-full bg-surface-container-lowest/60 border border-outline-variant/40 rounded-sm px-5 py-4 text-on-background placeholder:text-outline focus:border-primary focus:ring-primary"
+placeholder="Jane Doe"/>
+</div>
+<div>
+<label for="email" class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant block mb-3">Email <span class="text-error" aria-hidden="true">*</span></label>
+<input type="email" id="email" name="email" required autocomplete="email"
+class="w-full bg-surface-container-lowest/60 border border-outline-variant/40 rounded-sm px-5 py-4 text-on-background placeholder:text-outline focus:border-primary focus:ring-primary"
+placeholder="jane@company.com"/>
+</div>
+</div>
+<div>
+<label for="message" class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant block mb-3">Message <span class="text-error" aria-hidden="true">*</span></label>
+<textarea id="message" name="message" rows="5" required
+class="w-full bg-surface-container-lowest/60 border border-outline-variant/40 rounded-sm px-5 py-4 text-on-background placeholder:text-outline focus:border-primary focus:ring-primary resize-y"
+placeholder="Tell me about your project…"></textarea>
+</div>
+<div class="text-center">
+<button type="submit" class="group inline-flex items-center gap-4 bg-primary-container text-on-primary-container px-10 py-5 font-label-mono text-label-mono uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(0,87,255,0.5)]">
+Send Message
+<span class="material-symbols-outlined group-hover:translate-x-2 transition-transform" aria-hidden="true">send</span>
+</button>
+</div>
+</form>
+</div>
+</section>
+
+</main>
+
+<!-- Footer -->
+<footer class="w-full py-16 px-6 md:px-container-padding border-t border-outline-variant/5 bg-background/80 backdrop-blur-lg relative z-10">
+<div class="flex flex-col md:flex-row justify-between items-center gap-gutter max-w-[1440px] mx-auto">
+<div class="flex flex-col gap-4 text-center md:text-left">
+<span class="font-headline-lg text-on-background font-bold">45Design</span>
+<p class="font-label-mono text-label-mono uppercase text-on-surface-variant">© 2026 Bruno Jones. All rights reserved.</p>
+</div>
+<div class="flex gap-10">
+<a class="font-label-mono text-label-mono uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Github</a>
+<a class="font-label-mono text-label-mono uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a>
+<a class="font-label-mono text-label-mono uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Dribbble</a>
+</div>
+</div>
+</footer>
+
+<!-- Project Case-Study Modal -->
+<dialog id="project-modal" class="bg-surface-container-low text-on-background border border-white/10 rounded-lg p-0 w-[92%] max-w-xl shadow-[0_0_60px_-10px_rgba(0,87,255,0.5)]">
+<div class="p-8 md:p-10 relative">
+<button id="modal-close" type="button" aria-label="Close project details" class="absolute top-4 right-4 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined" aria-hidden="true">close</span>
+</button>
+<span id="modal-tag" class="font-label-mono text-label-mono uppercase tracking-widest text-primary border border-primary/30 px-3 py-1 mb-4 inline-block rounded-sm"></span>
+<h3 id="modal-title" class="font-headline-lg text-headline-lg-mobile leading-tight mb-8"></h3>
+<div class="space-y-6 mb-10">
+<div>
+<p class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Who</p>
+<p id="modal-who" class="text-body-md leading-relaxed"></p>
+</div>
+<div>
+<p class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">What I Built</p>
+<p id="modal-built" class="text-body-md leading-relaxed"></p>
+</div>
+<div>
+<p class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant mb-2">Result</p>
+<p id="modal-result" class="text-body-md leading-relaxed"></p>
+</div>
+</div>
+<a id="modal-link" href="#" target="_blank" rel="noopener" class="group inline-flex items-center gap-4 bg-primary-container text-on-primary-container px-8 py-4 font-label-mono text-label-mono uppercase tracking-widest transition-all duration-300 hover:scale-105 active:scale-95 hover:shadow-[0_0_30px_rgba(0,87,255,0.6)]">
+View Live Site
+<span class="material-symbols-outlined group-hover:translate-x-2 transition-transform" aria-hidden="true">north_east</span>
+</a>
+</div>
+</dialog>
+
+<script>
+// WebGL silk shader background
+(function() {
+  const canvas = document.getElementById('shader-canvas-bg');
+  if (!canvas) return;
+
+  function syncSize() {
+    const w = canvas.clientWidth || 1280;
+    const h = canvas.clientHeight || 720;
+    if (canvas.width !== w || canvas.height !== h) {
+      canvas.width = w;
+      canvas.height = h;
+    }
+  }
+  if (typeof ResizeObserver !== 'undefined') {
+    new ResizeObserver(syncSize).observe(canvas);
+  }
+  syncSize();
+
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  if (!gl) return;
+
+  const vs = `attribute vec2 a_position;
+varying vec2 v_texCoord;
+void main() {
+  v_texCoord = a_position * 0.5 + 0.5;
+  gl_Position = vec4(a_position, 0.0, 1.0);
+}`;
+  const fs = `precision highp float;
+varying vec2 v_texCoord;
+uniform float u_time;
+uniform vec2 u_resolution;
+uniform vec2 u_mouse;
+
+float noise(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+float snoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = noise(i);
+    float b = noise(i + vec2(1.0, 0.0));
+    float c = noise(i + vec2(0.0, 1.0));
+    float d = noise(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+void main() {
+    vec2 uv = v_texCoord;
+    vec2 mouse = u_mouse / u_resolution;
+
+    vec3 black = vec3(0.005, 0.005, 0.01);
+    vec3 electricBlue = vec3(0.0, 0.34, 1.0);
+
+    float t = u_time * 0.15;
+
+    vec2 p = uv * 3.0;
+    float n = snoise(p + t);
+    n += 0.5 * snoise(p * 2.1 + t * 1.2 + n);
+    n += 0.25 * snoise(p * 4.3 - t * 0.8 + n);
+
+    float folds = sin(uv.x * 2.5 + n * 5.0 + t) * 0.5 + 0.5;
+    folds *= cos(uv.y * 2.0 - n * 3.0 + t * 0.5) * 0.5 + 0.5;
+
+    float sheen = pow(folds, 4.0);
+
+    float mouseDist = length(uv - mouse);
+    float mouseGlow = 0.06 / (mouseDist + 0.12);
+
+    vec3 color = mix(black, electricBlue * 0.6, folds);
+    color += electricBlue * (sheen * 0.4 + mouseGlow);
+
+    float grain = noise(uv + u_time * 0.02) * 0.03;
+    color += grain;
+
+    gl_FragColor = vec4(color, 1.0);
+}`;
+  function cs(type, src) {
+    const s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, cs(gl.VERTEX_SHADER, vs));
+  gl.attachShader(prog, cs(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(prog);
+  gl.useProgram(prog);
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,1]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(prog, 'a_position');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const uTime = gl.getUniformLocation(prog, 'u_time');
+  const uRes = gl.getUniformLocation(prog, 'u_resolution');
+  const uMouse = gl.getUniformLocation(prog, 'u_mouse');
+
+  let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+  window.addEventListener('mousemove', (event) => {
+    const rect = canvas.getBoundingClientRect();
+    if (rect.width && rect.height) {
+      const nx = (event.clientX - rect.left) / rect.width;
+      const ny = 1.0 - (event.clientY - rect.top) / rect.height;
+      mouse.x = nx * canvas.width;
+      mouse.y = ny * canvas.height;
+    }
+  });
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function draw(t) {
+    gl.viewport(0, 0, canvas.width, canvas.height);
+    if (uTime) gl.uniform1f(uTime, t * 0.001);
+    if (uRes) gl.uniform2f(uRes, canvas.width, canvas.height);
+    if (uMouse) gl.uniform2f(uMouse, mouse.x, mouse.y);
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  }
+  function render(t) {
+    if (typeof ResizeObserver === 'undefined') syncSize();
+    draw(t);
+    requestAnimationFrame(render);
+  }
+  if (reducedMotion) {
+    draw(0);
+  } else {
+    render(0);
+  }
+})();
+
+// Intersection Observer for scroll reveal animations
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.1, rootMargin: '0px 0px -100px 0px' });
+
+document.querySelectorAll('.reveal-on-scroll').forEach(el => observer.observe(el));
+
+// Project case-study modal
+const caseStudies = {
+  "Wirral Hairdressers": {
+    who: "A West Kirby salon charging premium prices with no website to match — enquiries came through Instagram DMs and phone calls, and new clients had no way to see the work or the price list before walking in.",
+    built: "An editorial salon site that sells the experience: a full price list by service, a styling gallery, Google reviews pulled into the page, and a booking form that captures the service and preferred time up front.",
+    result: "Bookings that arrive with the details already filled in, and a site that looks like the prices — live in 3 days, no monthly salon-software fee."
+  },
+  "Katrina Photography": {
+    who: "Katrina shoots weddings for high-end clients in Istanbul — but her work lived on Instagram, where luxury couples couldn't tell her apart from hobbyists charging a tenth of her rate.",
+    built: "A four-page portfolio built around the photographs: masonry galleries with a full-screen lightbox, a dark gold-accented look that reads expensive, and a contact form that pre-qualifies enquiries.",
+    result: "A portfolio that justifies premium pricing, delivered in 2 days — and she owns it outright, no Squarespace subscription."
+  },
+  "DJ Carlos": {
+    who: "Carlos plays clubs across Mexico City, but bookers kept asking for a press kit he didn't have — his mixes were scattered across SoundCloud links and Instagram DMs.",
+    built: "A one-page site that works like a booking pitch: embedded mixes promoters can play instantly, a neon-on-black design as loud as his sets, and a booking form that lands straight in his inbox.",
+    result: "Everything a promoter needs on one link, live in 2 days — no Linktree, no platform sitting between Carlos and a booking."
+  },
+  "Exploring with Suzie": {
+    who: "Suzie's travel guides and photo stories were split between Instagram and a newsletter — nothing she owned tied the journeys together or grew her audience between trips.",
+    built: "A personal travel home with an interactive map that plots every story by place, a running journal, and an airy hand-lettered design that feels like her notebooks, not a template.",
+    result: "One link that holds her whole body of work, live in 3 days — content she owns, wherever the platforms go next."
+  },
+  "Diana Merch Store": {
+    who: "Diana's merch is screen-printed by hand in small runs — no restocks. She needed a store that sells that scarcity without Shopify fees eating small-drop margins.",
+    built: "A fully custom store in her rave-flyer aesthetic: product filtering, drop-based sorting, and secure Stripe checkout via serverless functions. Live preview link from day two.",
+    result: "Zero monthly platform fees, live in 3 days, and Diana owns everything — the code, the design, the Stripe account."
+  },
+  "Hallo! Learn German": {
+    who: "Beginner learners kept quitting German after week two — flashcard apps drill vocabulary but never let you use it, so practice feels like homework instead of conversation.",
+    built: "An AI chat tutor fronted by Lotte, a fox who texts like a friend: real conversations pitched at your level, automatic word tracking, and progress stats that make streaks visible.",
+    result: "Daily practice that feels like messaging, not studying — shipped in 2 days as proof an AI product can have personality."
+  },
+  "Neon Runner": {
+    who: "A passion project with a point to prove: browser games have a reputation for feeling cheap, and I wanted to show pure web tech could hit arcade-native smoothness.",
+    built: "A lane-running arcade game on raw canvas — no engine, no libraries: hand-tuned 60fps gameplay, unlockable skins and abilities, and a synthwave look that commits fully to the fantasy.",
+    result: "Native-feel chaos in any browser tab, and the clearest proof on this page that I sweat the details."
+  }
+};
+
+const projectModal = document.getElementById('project-modal');
+document.querySelectorAll('#work article').forEach(card => {
+  const title = card.querySelector('h3').textContent.trim();
+  const openModal = () => {
+    const data = caseStudies[title];
+    if (!data) return;
+    document.getElementById('modal-tag').textContent = card.querySelector('span').textContent.trim();
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-who').textContent = data.who;
+    document.getElementById('modal-built').textContent = data.built;
+    document.getElementById('modal-result').textContent = data.result;
+    document.getElementById('modal-link').href = card.querySelector('a[target="_blank"]').href;
+    projectModal.showModal();
+  };
+  card.addEventListener('click', openModal);
+  card.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openModal();
+    }
+  });
+  card.querySelector('a[target="_blank"]').addEventListener('click', (e) => e.stopPropagation());
+});
+document.getElementById('modal-close').addEventListener('click', () => projectModal.close());
+projectModal.addEventListener('click', (e) => {
+  if (e.target === projectModal) projectModal.close();
+});
+
+// Smooth scrolling for in-page anchors
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function (e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+</script>
+</body>
+</html>
